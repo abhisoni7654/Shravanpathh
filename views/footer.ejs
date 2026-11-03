@@ -1,0 +1,62 @@
+<!--footer-->
+       <div>
+        <footer class="footer">
+        Ministry of Tourism / Ministry of Home Affairs / Government of India / SIH25
+      </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script>
+  window.addEventListener('load', () => {
+    const blockchainId = sessionStorage.getItem('userBlockchainId');
+    
+    if (blockchainId && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(sendPositionToServer, showError);
+    } else {
+      console.log("No blockchain ID found or geolocation is not supported.");
+    }
+  });
+
+  async function sendPositionToServer(position) {
+    const payload = {
+      blockchain_id: sessionStorage.getItem('userBlockchainId'),
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+    };
+
+    try {
+      const response = await fetch('/api/update-location', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      console.log('Location update result:', result);
+    } catch (error) {
+      console.error('Failed to send location to server:', error);
+    }
+  }
+
+  function showError(error) {
+    switch(error.code) {
+      case error.PERMISSION_DENIED:
+        console.log("User denied the request for Geolocation.");
+        break;
+      case error.POSITION_UNAVAILABLE:
+        console.log("Location information is unavailable.");
+        break;
+      case error.TIMEOUT:
+        console.log("The request to get user location timed out.");
+        break;
+      case error.UNKNOWN_ERROR:
+        console.log("An unknown error occurred.");
+        break;
+    }
+  }
+</script>
+    
+    <script src="script.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,31 @@
+<%- include('header.ejs') %>
+<div id="admin-login-container" class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="admin-login-card card">
+                <div class="admin-card-header card-header">
+                    <h3>Admin & Police Login</h3>
+                </div>
+                <div class="admin-card-body card-body">
+                    <% if (typeof error !== 'undefined' && error) { %>
+                        <div class="admin-error-alert alert alert-danger" role="alert">
+                            Invalid username or password. Please try again.
+                        </div>
+                    <% } %>
+                    <form action="/admin/login" method="POST">
+                        <div class="admin-form-group admin-username-group mb-3">
+                            <label for="username" class="admin-form-label form-label">Username</label>
+                            <input type="text" class="admin-form-control form-control" id="username" name="username" required>
+                        </div>
+                        <div class="admin-form-group admin-password-group mb-3">
+                            <label for="password" class="admin-form-label form-label">Password</label>
+                            <input type="password" class="admin-form-control form-control" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="admin-login-btn btn btn-primary w-100">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('footer.ejs') %>

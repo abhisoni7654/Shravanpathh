@@ -1,0 +1,92 @@
+<%- include('header.ejs') %>
+
+<div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 100px;">
+    <h1>Dashboard: Verified Tourists</h1>
+    <div>
+        <a href="/ledger" class="btn btn-primary">View Ledger</a>
+        <a href="/admin/emergencies" class="btn btn-danger">View Emergencies</a>
+        <a href="/admin/login" class="btn btn-outline-danger">Logout</a>
+    </div>
+</div>
+
+    <div class="card">
+        <div class="card-body">
+            <% if (users && users.length > 0) { %>
+                <table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Blockchain ID</th>
+            <th>Live Location</th>
+            <th>Status</th> </tr>
+    </thead>
+    <tbody>
+        <% users.forEach(user => { %>
+            <tr>
+                <td><%= user.fullName %></td>
+                <td class="text-monospace small"><%= user.blockchain_id %></td>
+                <td>
+                    <% if (user.location) { %>
+                        <a href="https://www.google.com/maps?q=<%= user.location.latitude %>,<%= user.location.longitude %>" target="_blank" class="btn btn-sm btn-info">
+                            Open Map
+                        </a>
+                    <% } else { %>
+                        <span class="text-muted">Not Available</span>
+                    <% } %>
+                </td>
+                <td>
+                    <% if (user.status && user.status.includes("Anomaly")) { %>
+                        <span class="badge bg-danger"><%= user.status %></span>
+                    <% } else { %>
+                        <span class="badge bg-success">Normal</span>
+                    <% } %>
+                </td>
+            </tr>
+        <% }); %>
+    </tbody>
+</table>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Blockchain ID</th>
+                                <th>Mobile</th>
+                                <th>Travel Location</th>
+                                <th>Verified At</th>
+                                <th>Live Location</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% users.forEach(user => { %>
+                                <tr>
+                                    <td><%= user.fullName %></td>
+                                    <td class="text-monospace small"><%= user.blockchain_id %></td>
+                                    <td><%= user.mobile %></td>
+                                    <td><%= user.currentTravel %></td>
+                                    <td><%= new Date(user.verifiedAt).toLocaleString() %></td>
+                                    <td>
+                                        <% if (user.location) { %>
+                                            <a href="https://www.google.com/maps?q=<%= user.location.latitude %>,<%= user.location.longitude %>" target="_blank" class="btn btn-sm btn-info">
+                                                Open Map
+                                            </a>
+                                        <% } else { %>
+                                            <span class="text-muted">Not Available</span>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } else { %>
+                <div class="alert alert-info" role="alert">
+                    No verified users found in the system yet.
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+
+<%- include('footer.ejs') %>

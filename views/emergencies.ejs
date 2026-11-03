@@ -1,0 +1,45 @@
+<%- include("header.ejs") %>
+<div id="emergency-alerts-container" class="container mt-4">
+    <div class="emergency-header-section d-flex justify-content-between align-items-center mb-3">
+        <h1 class="emergency-main-title">🚨 Emergency Alerts</h1>
+        
+    </div>
+    <a href="/dashboard" class="emergency-back-btn btn btn-secondary" style="margin-top: 200px;">← Back to Dashboard</a>
+    
+        <div class="emergency-card-body card-body">
+            <% if (emergencies && emergencies.length > 0) { %>
+                <div class="emergency-table-container table-responsive">
+                    <table class="emergency-alerts-table table table-danger table-striped table-hover">
+                        <thead class="emergency-table-header">
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Full Name</th>
+                                <th>Aadhaar Number</th>
+                                <th>Location</th>
+                            </tr>
+                        </thead>
+                        <tbody class="emergency-table-body">
+                            <% emergencies.slice().reverse().forEach(alert => { %>
+                                <tr class="emergency-table-row">
+                                    <td class="emergency-table-cell emergency-timestamp-cell"><%= new Date(alert.timestamp).toLocaleString() %></td>
+                                    <td class="emergency-table-cell emergency-name-cell"><%= alert.fullName %></td>
+                                    <td class="emergency-table-cell emergency-aadhaar-cell"><%= alert.aadhaarNumber %></td>
+                                    <td class="emergency-table-cell">
+                                        <a href="https://www.google.com/maps?q=<%= alert.location.latitude %>,<%= alert.location.longitude %>" target="_blank" class="emergency-map-btn btn btn-sm btn-info">
+                                            Open Map
+                                        </a>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } else { %>
+                <div class="emergency-no-alerts alert alert-success" role="alert">
+                    No emergency alerts have been reported.
+                </div>
+            <% } %>
+        </div>
+    
+</div>
+<%- include('footer.ejs') %>
